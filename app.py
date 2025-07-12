@@ -6,8 +6,11 @@ class App (object):
     _app : flask.Flask
 
     def __init__ (self) -> None:
+        """
+        App setup and class initializer.
+        """
 
-        self._app = flask.Flask(__name__);
+        self._app = flask.Flask(__name__, template_folder = 'templates', static_folder = 'static');
 
     def set_routes (self) -> None:
         """
