@@ -1,9 +1,17 @@
+"""
+Application
+"""
+
 import flask
 import sys
+import functools
+
+import apis
 
 class App (object):
 
     _app : flask.Flask
+    _active_apis : set[str]
 
     def __init__ (self) -> None:
         """
@@ -11,6 +19,7 @@ class App (object):
         """
 
         self._app = flask.Flask(__name__, template_folder = 'templates', static_folder = 'static');
+        _active_apis = []
 
     def set_routes (self) -> None:
         """
@@ -18,14 +27,17 @@ class App (object):
         """
 
         @self._app.route('/')
-        def root () -> None:
+        def root () -> (str, int):
 
-            return 'The app is running.'
+            return 'The app is running.' + functools.reduce(lambda a, b : a + b, self._active_apis), 200
 
-    def start_apis (self) -> None:
+    def set_apis (self) -> None:
+        """
+        API set setter
+        """
 
-        ...
-    
+        apis.fs.FileSystemAPI(self._app, self._active_apis).set_routes()
+            
     def main (self) -> None:
         """
         App main function.
@@ -35,7 +47,7 @@ class App (object):
 
         self.set_routes()
 
-        self.start_apis()
+        self.set_apis()
         
         self._app.run(debug = sys.argv[-1] == 'debug')
 
