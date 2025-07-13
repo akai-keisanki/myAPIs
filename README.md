@@ -23,3 +23,34 @@ Recommended:
 - Copy or move `.env.example` to `.env`. (E. g. `cp .env.example .env`)
 
 - Edit `.env` to change the `SECRET_KEY`. (E. g. `sed -i "s/yoursecretkey/$(python3 -c 'import secrets; print(secrets.token_hex())')/" .env`)
+
+Quick installation bash for Linux:
+
+```sh
+# Change path/to/myAPIs to the actual path to the working directory.
+cd /path/to/myAPIs
+
+# NOTE: `python3` could also be `python` for some systems.
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install -r requirements.txt
+
+cp .env.example .env
+
+# NOTE: `python3` could also be `python` for some systems.
+sed -i "s/yoursecretkey/$(python3 -c 'import secrets; print(secrets.token_hex())')/" .env
+```
+
+# Routes:
+
+### Root:
+
+- Check: `/`
+
+### FileSystem:
+
+- Check: `/fs`
+
+- File access: `/fs/access/<path:item_path>`; Args/Params: `r`, `w`, `a` (operations), `encoding`: string; Data: text to be written when using the `w` or `a` parameter.
+
