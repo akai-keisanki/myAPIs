@@ -6,9 +6,10 @@ Repositório para minhas APIs de teste e ferramentas web com Flask.
 
 # Requirements
 
-Recomenda-se:
+Recommended:
 
 - Python 3.12.3
+
 - PIP 24.0
 
 # Installation:
