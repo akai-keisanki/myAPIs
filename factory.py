@@ -27,8 +27,9 @@ def create_app () -> Flask:
 
     # Controllers
 
-    from controllers import example_controller
+    from controllers import example_controller, user_controller
 
     app.register_blueprint(example_controller)
+    app.register_blueprint(user_controller)
 
     return app
