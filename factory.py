@@ -14,11 +14,21 @@ def create_app () -> Flask:
 
     db.init_app(app)
 
-    from models import *
+    # Models
+
+    from models import User
 
     migrate.init_app(app, db)
 
+    # Main routes
+
     @app.route('/', methods = ['GET'])
     def root (): return 'The application is running successfully!', 200
+
+    # Controllers
+
+    from controllers import example_controller
+
+    app.register_blueprint(example_controller)
 
     return app
