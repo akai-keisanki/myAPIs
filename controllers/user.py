@@ -76,4 +76,6 @@ def user_id_put (id : int):
         user.password = data['new_password']
         response['password_modified'] = True
 
+    db.session.commit()
+
     return response, 200
