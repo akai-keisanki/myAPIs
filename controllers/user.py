@@ -72,8 +72,8 @@ def user_id_put (id : int):
 
     response = {'message': f'User with id {id} modified successfully!', 'id': user.id, 'username': user.username, 'email': user.email, 'password_modified': False}
 
-    if 'password' in data:
-        user.password = data['password']
+    if 'new_password' in data:
+        user.password = data['new_password']
         response['password_modified'] = True
 
     return response, 200
