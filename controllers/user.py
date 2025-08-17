@@ -23,7 +23,7 @@ def user_id_get (id : int):
 
     response = {'id': user.id, 'username': user.username, 'email': user.email}
 
-    return jsonify(response), 200
+    return response, 200
 
 @user_controller.route('/', methods=['POST'])
 def user_post ():
@@ -38,7 +38,7 @@ def user_post ():
 
     response = {'id': user.id, 'username': user.username, 'email': user.email}
 
-    return jsonify(response), 201
+    return response, 201
 
 @user_controller.route('/<int:id>', methods=['DELETE'])
 def user_id_delete (id : int):
@@ -55,3 +55,25 @@ def user_id_delete (id : int):
     db.session.commit()
 
     return {'message': f'User with id {id} successfully deleted!'}, 200
+
+@user_controller.route('/<int:id>', methods=['PUT'])
+def user_id_put (id : int):
+
+    data = request.json
+    if 'password' not in data: return {'message': 'Bad request!'}, 400
+
+    user = User.query.filter_by(id = id).first()
+    if not user: return {'message': f'User with id {id} not found!'}, 404
+
+    if data['password'] != user.password: return {'message': f'Wrong password for user with id {id}!'}, 403
+
+    if 'username' in data: user.username = data['username']
+    if 'email' in data: user.email = data['email']
+
+    response = {'message': f'User with id {id} modified successfully!', 'id': user.id, 'username': user.username, 'email': user.email, 'password_modified': False}
+
+    if 'password' in data:
+        user.password = data['password']
+        response['password_modified'] = True
+
+    return response, 200
